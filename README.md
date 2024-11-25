@@ -5,7 +5,7 @@ Esse projeto simula um gerenciador de entregas. A aplicação foi criada com Jav
 > [!IMPORTANT]
 > Para executar esse projeto são necessárias as ferramentas:
 > - JDK 21
-> - Maven (caso queira modificar a aplicação original)
+> - Maven
 > - Docker
 
 <h1 align="center">Executando o projeto</h1>
@@ -14,6 +14,10 @@ Esse projeto simula um gerenciador de entregas. A aplicação foi criada com Jav
 git clone https://github.com/DabGias/CargoFlow
 
 cd CargoFlow
+
+mvn compile
+
+mvn package -Dmaven.test.skip
 
 docker compose build
 
