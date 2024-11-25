@@ -1,0 +1,58 @@
+networks:
+  app_network:
+
+volumes:
+  postgres_data:
+
+services:
+  postgres-db:
+    image: postgres:16-alpine
+
+    container_name: postgres-db
+    
+    environment:
+      PGDATA: /var/lib/postgresql/data/app_data/
+      POSTGRES_DB: spring_db
+      POSTGRES_USER: spring_app
+      POSTGRES_PASSWORD: spring_app
+
+    build: ./postgres_build
+
+    ports:
+      - "5432:5432"
+
+    networks:
+      - app_network
+
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/app_data/
+
+  mock-api:
+    image: node:18-alpine
+
+    container_name: mock-api
+
+    build: ./mockoon_build
+
+    ports:
+      - "3001:3001"
+
+    networks:
+      - app_network
+
+  cargoflow:
+    image: maven
+
+    container_name: cargoflow
+
+    build: ./
+
+    ports:
+      - "8080:8080"
+
+    depends_on:
+      - postgres-db
+      - mock-api
+
+    networks:
+      - app_network

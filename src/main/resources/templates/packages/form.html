@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+    <head th:replace="~{_template :: head('CargoFlow')}"></head>
+
+    <style th:replace="~{_template :: #style}"></style>
+
+    <body>
+        <header th:replace="~{_template :: #header-component}"></header>
+        
+        <main class="main-container form-container">
+            <form th:action="${'/packages/create'}" method="post" th:object="${package}">
+                <div th:replace="~{_template :: textInput('content', 'Conteúdo')}"></div>
+                <div th:replace="~{_template :: numberInput('weight', 'Peso (Kg)')}"></div>
+                <div th:replace="~{_template :: numberInput('width', 'Largura (m)')}"></div>
+                <div th:replace="~{_template :: numberInput('height', 'Altura (m)')}"></div>
+                <div th:replace="~{_template :: numberInput('length', 'Comprimento (m)')}"></div>
+
+                <div th:replace="~{_template :: formActions('/packages')}"></div>
+            </form>
+        </main>
+
+        <footer th:replace="~{_template :: #footer-component}"></footer>
+    </body>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+    <head th:replace="~{_template :: head('CargoFlow')}"></head>
+
+    <style th:replace="~{_template :: #style}"></style>
+
+    <body>
+        <header th:replace="~{_template :: #header-component}"></header>
+
+        <main class="main-container form-container">
+            <form th:action="${'/shipments/create'}" method="post" th:object="${shipment}">
+                <div th:replace="~{_template :: cepInput('address.cep', 'CEP')}"></div>
+                <div th:replace="~{_template :: textInput('address.street', 'Rua')}"></div>
+                <div th:replace="~{_template :: textInput('address.state', 'Estado')}"></div>
+                <div th:replace="~{_template :: textInput('address.number', 'Número')}"></div>
+                <div th:replace="~{_template :: textInput('address.additionalInfo', 'Complemento')}"></div>
+                <div th:replace="~{_template :: textInput('receiver', 'Destinatário')}"></div>
+
+                <div th:if="${#lists.size(employees) != 0}" class="input-container">
+                    <label class="input-label">Funcionário</label>
+                    <select th:field="*{employee}" class="select-input">
+                        <option th:each="emp: ${employees}" th:value="${emp.id}" th:text="${emp.name} + ' (' + ${emp.cpf} + ')'"></option>
+                    </select>
+                </div>
+                <div th:unless="${#lists.size(employees) != 0}" class="input-container">
+                    <h2 style="text-align: center;">Nenhum funcionário disponível!</h2>
+                </div>
+
+                <a th:replace="~{_template :: navigateTo('/employees/add', '+ Adicionar funcionário')}"></a>
+
+                <div th:if="${#lists.size(packages) != 0}" class="input-container">
+                    <label class="input-label">Pacotes (segure ctrl ou command para selecionar mais de um pacote):</label>
+                    <select th:field="*{packages}" multiple class="select-input">
+                        <option th:each="package: ${packages}" th:value="${package.id}" th:text="${package.content}"></option>
+                    </select>
+                </div>
+                <div th:unless="${#lists.size(packages) != 0}" class="input-container">
+                    <h2 style="text-align: center;">Nenhum pacote disponível!</h2>
+                </div>
+
+                <a th:replace="~{_template :: navigateTo('/packages/add', '+ Adicionar pacote')}"></a>
+
+                <div class="input-container">
+                    <input th:field="*{arrivalDate}" type="date">
+                </div>
+
+                <div th:replace="~{_template :: formActions('/shipments')}"></div>
+            </form>
+        </main>
+
+        <footer th:replace="~{_template :: #footer-component}"></footer>
+    </body>
+
+    <script th:replace="~{_template :: #script}"></script>
+</html>

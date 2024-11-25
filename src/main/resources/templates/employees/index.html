@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="~{_template :: head('CargoFlow')}"></head>
+
+    <style th:replace="~{_template :: #style}"></style>
+
+    <body>
+        <header th:replace="~{_template :: #header-component}"></header>
+
+        <main class="main-container">
+            <h1 class="main-title">Funcionários</h1>
+
+            <a th:replace="~{_template :: navigateTo('/employees/create', '+ Adicionar funcionário')}"></a>
+
+            <div th:each="employee: ${employees}" th:object="${employee}" class="card">
+                <h2 th:text="*{name}"></h2>
+                <p th:text="*{cpf}"></p>
+
+                <a th:replace="~{_template :: navigateTo('/employees/delete/' + *{id}, 'deletar funcionário')}"></a>
+                <a th:replace="~{_template :: navigateTo('/employees/update/' + *{id}, 'editar funcionário')}"></a>
+            </div>
+
+            <div th:if="${#lists.size(employees) != 0}">
+                <a th:replace="~{_template :: navigateTo('/employees/create', '+ Adicionar funcionário')}"></a>
+            </div>
+        </main>
+
+        <footer th:replace="~{_template :: #footer-component}"></footer>
+    </body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="~{_template :: head('CargoFlow')}"></head>
+
+    <style th:replace="~{_template :: #style}"></style>
+
+    <body>
+        <header th:replace="~{_template :: #header-component}"></header>
+
+        <main class="main-container">
+            <h1 class="main-title">Pacotes</h1>
+
+            <a th:replace="~{_template :: navigateTo('/packages/create', '+ Adicionar pacote')}"></a>
+
+            <div th:each="package: ${packages}" th:object="${package}" class="card">
+                <h2 th:text="*{content}"></h2>
+                <p th:text="'Peso: ' + *{weight} + 'Kg'"></p>
+                <p th:text="'Largura: ' + *{width} + 'm'"></p>
+                <p th:text="'Altura: ' + *{height} + 'm'"></p>
+                <p th:text="'Comprimento: ' + *{length} + 'm'"></p>
+
+                <div th:if="${package.shipment == null}">
+                    <a th:replace="~{_template :: navigateTo('/packages/delete/' + *{id}, 'deletar pacote')}"></a>
+                </div>
+
+                <a th:replace="~{_template :: navigateTo('/packages/update/' + *{id}, 'editar pacote')}"></a>
+            </div>
+
+            <div th:if="${#lists.size(packages) != 0}">
+                <a th:replace="~{_template :: navigateTo('/packages/create', '+ Adicionar pacote')}"></a>
+            </div>
+        </main>
+
+        <footer th:replace="~{_template :: #footer-component}"></footer>
+    </body>
+</html>

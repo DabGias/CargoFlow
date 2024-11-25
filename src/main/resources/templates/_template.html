@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+    <head th:fragment="head(title)">
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <link rel="shortcut icon" type="image/x-icon" href="${pageContext.request.contextPath}/favicon.ico" />
+
+        <title th:text="${title}"></title>
+    </head>
+
+    <style id="style">
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Noto+Serif:ital,wght@0,100..900;1,100..900&display=swap');
+
+        :root {
+            --padding: 20px;
+            --input-padding: 10px;
+            --button-padding: 10px;
+            --margin: 20px;
+            --input-border-radius: 10px;
+            --basic-border: medium solid rgba(0, 0, 0, 1);
+            --invisible-border: medium solid rgba(0, 0, 0, 0);
+            --button-border-radius: 10px;
+            --text-font: "Noto Sans", sans-serif;
+            --font-weight: 600;
+            --background-color: rgb(243, 239, 25);
+            --transition-time: 200ms;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: var(--text-font);
+            font-weight: var(--font-weight);
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: var(--padding);
+            background-color: var(--background-color);
+        }
+
+        .logo {
+            font-size: 2em;
+            text-decoration: none;
+            color: black;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 400px;
+        }
+
+        .nav-option {
+            font-size: 1.5em;
+            text-decoration: none;
+            color: black;
+            transition: var(--transition-time);
+        }
+
+        .nav-option:hover {
+            box-shadow: 0px 2px;
+            transition: var(--transition-time);
+        }
+
+        .main-container {
+            min-height: 100vh;
+        }
+
+        .main-title {
+            text-align: center;
+            margin: var(--margin) 0;
+        }
+
+        .navigate-to {
+            display: block;
+            text-align: center;
+            text-decoration: none;
+            color: black;
+            border: var(--basic-border);
+            border-radius: var(--button-border-radius);
+            width: 300px;
+            margin: var(--margin) auto;
+            padding: var(--button-padding);
+        }
+
+        .card {
+            padding: var(--padding);
+            margin: var(--margin) auto;
+            width: 60%;
+            border: var(--basic-border);
+            border-radius: 20px;
+        }
+
+        .package-list {
+            list-style: decimal;
+            margin-left: var(--margin);
+        }
+
+        .form-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+            align-items: center;
+            width: 80%;
+            margin: var(--margin) auto;
+        }
+
+        .input-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+            width: 70%;
+            margin: var(--margin) 0;
+        }
+
+        .input-label {
+            font-size: 1.1em;
+        }
+
+        .input-container input {
+            font-size: 1.1em;
+            padding: var(--input-padding);
+            border: var(--basic-border);
+            border-radius: var(--input-border-radius);
+        }
+
+        .select-input {
+            font-size: 1.1em;
+            padding: var(--input-padding);
+            border: var(--basic-border);
+            border-radius: var(--input-border-radius);
+        }
+
+        .form-buttons {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: var(--margin);
+            width: 50%;
+        }
+
+        .form-button {
+            font-size: 1.1em;
+            padding: var(--button-padding);
+            border: var(--basic-border);
+            border-radius: var(--button-border-radius);
+            background-color: rgba(0, 0, 0, 0);
+        }
+
+        .form-cancel-button {
+            text-decoration: none;
+            color: black;
+            transition: var(--transition-time);
+        }
+
+        .form-cancel-button:hover {
+            background-color: rgb(255, 107, 107);
+            transition: var(--transition-time);
+        }
+
+        .form-confirm-button {
+            cursor: pointer;
+            transition: var(--transition-time);
+        }
+
+        .form-confirm-button:hover {
+            background-color: rgb(74, 221, 74);
+            transition: var(--transition-time);
+        }
+
+        .footer-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: var(--padding);
+            background-color: var(--background-color);
+        }
+
+        .external-link {
+            color: black;
+        }
+    </style>
+
+    <body>
+        <header id="header-component" class="header-container">
+            <a href="/shipments" class="logo">CargoFlow</a>
+
+            <nav class="nav-container">
+                <a href="/shipments" class="nav-option">Entregas</a>
+                <a href="/employees" class="nav-option">Funcionários</a>
+                <a href="/packages" class="nav-option">Pacotes</a>
+            </nav>
+        </header>
+
+        <a th:fragment="navigateTo(route, string)" th:href="@{${route}}" th:text="${string}" class="navigate-to"></a>
+
+        <div th:fragment="cepInput(field, label)" class="input-container">
+            <label th:for="${field}" th:text="CEP" class="input-label"></label>
+            <input th:field="*{__${field}__}" type="text" maxlength="9" onblur="getCepData(this.value)">
+        </div>
+
+        <div th:fragment="textInput(field, label)" class="input-container">
+            <label th:for="${field}" th:text="${label}" class="input-label"></label>
+            <input th:field="*{__${field}__}" type="text">
+        </div>
+
+        <div th:fragment="numberInput(field, label)" class="input-container">
+            <label for="${field}" th:text="${label}" class="input-label"></label>
+            <input th:field="*{__${field}__}" type="number" step="0.01" min="0">
+        </div>
+
+        <div th:fragment="formActions(route)" class="form-buttons">
+            <a th:href="@{${route}}" class="form-button form-cancel-button">Cancelar</a>
+            <button class="form-button form-confirm-button">Confirmar</button>
+        </div>
+
+        <footer id="footer-component" class="footer-container">
+            <h3>Autor: Gabriel Dias</h3>
+            <h3>GitHub: <a href="https://github.com/DabGias" target="_blank" class="external-link">DabGias</a></h3>
+        </footer>
+    </body>
+
+    <script id="script">
+        function getCepData(value) {
+            if (value.length !== 0 && value !== "") {
+                let cep = value.replace(/\D/g, '')
+
+                let streetInput = document.getElementById("address.street")
+                let stateInput = document.getElementById("address.state")
+
+                streetInput.value = "..."
+                stateInput.value = "..."
+
+                fetch("http://localhost:3001/cep/" + cep)
+                .then(response => response.json())
+                .then(json => {
+                    streetInput.value = json.logradouro
+                    stateInput.value = json.estado
+                })
+            }
+        }
+    </script>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="~{_template :: head('CargoFlow')}"></head>
+    
+    <style th:replace="~{_template :: #style}"></style>
+
+    <body>
+        <header th:replace="~{_template :: #header-component}"></header>
+        
+        <main class="main-container">
+            <h1 class="main-title">Entregas</h1>
+
+            <a th:replace="~{_template :: navigateTo('/shipments/create', '+ Adicionar entrega')}"></a>
+
+            <div th:each="shipment: ${shipments}" th:object="${shipment}" class="card">
+                <h2 th:text="'Local de entrega: ' + *{address?.state} + ', ' + *{address?.street} + ', ' + *{address?.number}"></h2>
+                <p th:if="${shipment.address?.additionalInfo != ''}" th:text="'Complemento: ' + *{address?.additionalInfo}"></p>
+                <p th:text="'Destinatário: ' + *{receiver}"></p>
+                <p th:text="'Entregador: ' + *{employee?.name} + ' (' + *{employee?.cpf} + ')'"></p>
+                <p th:text="'Data prevista para entrega: ' + *{#temporals.format(arrivalDate, 'dd/MM/yyyy')}"></p>
+                <p>Pacotes:</p>
+                <ul class="package-list">
+                    <li th:each="package: *{packages}" th:text="${package.content}"></li>
+                </ul>
+                <p th:text="*{arrived} ? 'Status: Entregue' : 'Status: A caminho'"></p>
+
+                <a th:replace="~{_template :: navigateTo('/shipments/delete/' + *{id}, 'deletar entrega')}"></a>
+
+                <div th:if="${shipment.arrived == false}">
+                    <a th:replace="~{_template :: navigateTo('/shipments/update/' + *{id}, 'editar entrega')}"></a>
+                </div>
+                <div th:if="${shipment.arrived == false}">
+                    <a th:replace="~{_template :: navigateTo('/shipments/set/arrived/' + *{id}, 'marcar como entregue')}"></a>
+                </div>
+            </div>
+
+            <div th:if="${#lists.size(shipments) != 0}">
+                <a th:replace="~{_template :: navigateTo('/shipments/create', '+ Adicionar entrega')}"></a>
+            </div>
+        </main>
+
+        <footer th:replace="~{_template :: #footer-component}"></footer>
+    </body>
+</html>
