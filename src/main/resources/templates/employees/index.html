@@ -15,8 +15,11 @@
             <div th:each="employee: ${employees}" th:object="${employee}" class="card">
                 <h2 th:text="*{name}"></h2>
                 <p th:text="*{cpf}"></p>
+                
+                <div th:if="${#lists.size(employee.shipments) == 0}">
+                    <a th:replace="~{_template :: navigateTo('/employees/delete/' + *{id}, 'deletar funcionário')}"></a>
+                </div>
 
-                <a th:replace="~{_template :: navigateTo('/employees/delete/' + *{id}, 'deletar funcionário')}"></a>
                 <a th:replace="~{_template :: navigateTo('/employees/update/' + *{id}, 'editar funcionário')}"></a>
             </div>
 

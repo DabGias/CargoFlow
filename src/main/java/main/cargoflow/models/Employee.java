@@ -1,10 +1,16 @@
 package main.cargoflow.models;
 
+import java.util.LinkedHashSet;
+import java.util.Set;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
@@ -43,11 +49,28 @@ public class Employee {
     @Column(name = "employee_cpf")
     private String cpf;
 
-    public Employee() {}
+    @OneToMany(
+        mappedBy = "employee",
+        fetch = FetchType.EAGER,
+        cascade = {
+            CascadeType.PERSIST,
+            CascadeType.MERGE,
+            CascadeType.REMOVE
+        }
+    )
+    private Set<Shipment> shipments = new LinkedHashSet<>();
+
+    public Employee() {}    
 
     public Employee(@NotBlank String name, @NotBlank @Pattern(regexp = "^\\d{3}\\.?\\d{3}\\.?\\d{3}\\-?\\d{2}$") String cpf) {
         this.name = name;
         this.cpf = cpf;
+    }
+
+    public Employee(@NotBlank String name, @NotBlank @Pattern(regexp = "^\\d{3}\\.?\\d{3}\\.?\\d{3}\\-?\\d{2}$") String cpf, Set<Shipment> shipments) {
+        this.name = name;
+        this.cpf = cpf;
+        this.shipments = shipments;
     }
 
     public Long getId() {
@@ -72,6 +95,14 @@ public class Employee {
 
     public void setCpf(String cpf) {
         this.cpf = cpf;
+    }
+
+    public Set<Shipment> getShipments() {
+        return shipments;
+    }
+
+    public void setShipments(Set<Shipment> shipments) {
+        this.shipments = shipments;
     }
 
     @Override
