@@ -3,7 +3,6 @@ package main.cargoflow.models;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -51,12 +50,7 @@ public class Employee {
 
     @OneToMany(
         mappedBy = "employee",
-        fetch = FetchType.EAGER,
-        cascade = {
-            CascadeType.PERSIST,
-            CascadeType.MERGE,
-            CascadeType.REMOVE
-        }
+        fetch = FetchType.EAGER
     )
     private Set<Shipment> shipments = new LinkedHashSet<>();
 
