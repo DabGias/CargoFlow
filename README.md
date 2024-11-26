@@ -8,9 +8,9 @@ Esse projeto simula um gerenciador de entregas. A aplicação foi criada com Jav
 > - Maven
 > - Docker
 > O Projeto usa os seguintes ports:
-> - 8080
-> - 3001
-> - 5432
+> - `8080`
+> - `3001`
+> - `5432`
 > **Caso algum desses ports estejam indispovíveis o projeto não poderá ser executado.**
 
 <h1 align="center">Executando o projeto</h1>
